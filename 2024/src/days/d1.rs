@@ -1,7 +1,6 @@
 use std::collections::{BinaryHeap, HashMap};
-use std::{env,fs};
 
-fn p1(input: &str) {
+pub fn p1(input: String) -> i32 {
     let mut left_heap = BinaryHeap::new();
     let mut right_heap = BinaryHeap::new();
 
@@ -21,10 +20,10 @@ fn p1(input: &str) {
         diff += (left-right).abs();
     }
 
-    println!("Result p1: {diff}");
+    diff
 }
 
-fn p2(input: &str) {
+pub fn p2(input: String) -> i32 {
     let mut left = Vec::new(); 
     let mut right = HashMap::new();
 
@@ -38,16 +37,7 @@ fn p2(input: &str) {
         }
     }
     
-    let result = left.iter().fold(0, |acc, n| acc+n*right.get(n).unwrap_or(&0));
-    println!("Results p2: {result}")
+    left.iter().fold(0, |acc, n| acc+n*right.get(n).unwrap_or(&0))
 }
 
-fn main() {
-    let args: Vec<String> = env::args().collect();
-    let file_name = args.get(1)
-        .expect("No file name passed");
-    let input = fs::read_to_string(file_name)
-        .expect("Failed to read file");
-    p2(&input);
 
-}
