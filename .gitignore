@@ -1,0 +1,2 @@
+# Ignore my actual input files, all ending in -input
+*-input
