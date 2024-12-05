@@ -13,7 +13,7 @@ fn main() {
     let part: usize = args[2].parse().expect("Part must be a number");
     
     let file_path = match args.get(3) {
-        Some(t) if t == "-t" => format!("../inputs/{day}-test"),
+        Some(t) if t == "-t" => format!("../inputs/{day}-test-{part}"),
         None => format!("../inputs/{day}-input"),
         _ => { eprintln!("Only valid flag is -t for running against test-data. by default input-data is use"); return;}
       };
