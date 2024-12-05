@@ -15,7 +15,7 @@ fn main() {
     let file_path = match args.get(3) {
         Some(t) if t == "-t" => format!("../inputs/{day}-test-{part}"),
         None => format!("../inputs/{day}-input"),
-        _ => { eprintln!("Only valid flag is -t for running against test-data. by default input-data is use"); return;}
+        _ => { eprintln!("Only valid flag is -t for running against test data. by default input data is use"); return;}
       };
     
     let input = fs::read_to_string(file_path);

@@ -13,5 +13,11 @@ pub fn p1(input : String) -> i32 {
 }
 
 pub fn p2(input : String) -> i32 {
-    1
+   let re = Regex::new(r"mul\(d{1,3},\d{1,3}\)|do\(\)|don't\(\)").unwrap();
+   
+   for m in re.find_iter(&input) {
+       dbg!(m);
+   }
+
+   3
 }
