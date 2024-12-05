@@ -12,13 +12,16 @@ fn main() {
     let day: usize = args[1].parse().expect("Day must be a number");
     let part: usize = args[2].parse().expect("Part must be a number");
     
-    let input_file = match args.get(3) {
+    let file_path = match args.get(3) {
         Some(t) if t == "-t" => format!("../inputs/{day}-test"),
         None => format!("../inputs/{day}-input"),
         _ => { eprintln!("Only valid flag is -t for running against test-data. by default input-data is use"); return;}
       };
+    
+    let input = fs::read_to_string(file_path);
 
-    let input = fs::read_to_string(input_file).expect("Error reading file");
-
-    run_day(day,part,input);
+    match input {
+        Ok(input) => run_day(day,part,input),
+        Err(e) => panic!("{e}"),
+    };
 }
