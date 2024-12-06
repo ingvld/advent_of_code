@@ -10,6 +10,8 @@ pub fn run_day(day: usize, part: usize, input: String) {
         (2,2) => days::d2::p2(input),
         (3,1) => days::d3::p1(input),
         (3,2) => days::d3::p2(input),
+        (4,1) => days::d4::p1(input),
+        (4,2) => days::d4::p2(input),
         _ => { eprintln!("Day {day} part {part} not available"); process::exit(1); }
     };
 
