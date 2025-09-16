@@ -1,3 +1,5 @@
+import sys
+
 class Monkey:
     def __init__(self,items,op,test_divisor,iftrue,iffalse):
         self.items = items
@@ -19,13 +21,21 @@ class Monkey:
 
     def inspect_item(self):
         self.inspect_count += 1
-        item = self.op(self.items.pop(0))
+        item = self.op(self.items.pop(0)) // 3
         if item % self.test_divisor:
             return (item,self.iffalse)
         return (item,self.iftrue)
 
+    def print_monkey(self):
+        print(f'My items are {self.items}')
+        print(f'My op with 3 = {self.op(3)}')
+        print(f'My test divisor is {self.test_divisor}')
+        print(f'If true I throw to monkey {self.iftrue}')
+        print(f'If not I throw to monkey {self.iffalse}')
+        print()
 
-with open('11-test.txt') as f:
+
+with open(sys.argv[1]) as f:
     monkey_data = [monkey.split('\n') for monkey in f.read().split('\n\n')]
     monkeys = []
 
@@ -37,9 +47,8 @@ with open('11-test.txt') as f:
         monkeys.append(Monkey(items,op,test,iftrue,iffalse))
 
 round = 0
-last_inspect_counts = None
 
-while round <= 500:
+while round < 20:
     for monkey in monkeys:
         while monkey.has_items():
             item,monkey_index = monkey.inspect_item()
@@ -49,3 +58,4 @@ while round <= 500:
 monkey_activity = sorted([monkey.inspect_count for monkey in monkeys],reverse=True)
 
 print(monkey_activity[0]*monkey_activity[1])
+

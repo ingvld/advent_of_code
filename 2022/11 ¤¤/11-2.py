@@ -1,3 +1,6 @@
+import sys
+from functools import reduce
+
 class Monkey:
     def __init__(self,items,op,test_divisor,iftrue,iffalse):
         self.items = items
@@ -19,7 +22,7 @@ class Monkey:
 
     def inspect_item(self):
         self.inspect_count += 1
-        item = self.op(self.items.pop(0)) // 3
+        item = self.op(self.items.pop(0))
         if item % self.test_divisor:
             return (item,self.iffalse)
         return (item,self.iftrue)
@@ -33,27 +36,30 @@ class Monkey:
         print()
 
 
-with open('11-input.txt') as f:
+with open(sys.argv[1]) as f:
     monkey_data = [monkey.split('\n') for monkey in f.read().split('\n\n')]
     monkeys = []
+    tests = []
 
     for data in monkey_data:
         items = list(map(int,data[1][18:].split(', ')))
         op = data[2][23:].split()
         test = int(data[3][21:])
+        tests.append(test)
         iftrue,iffalse = int(data[4][29:]),int(data[5][29:])
         monkeys.append(Monkey(items,op,test,iftrue,iffalse))
 
+common_test_multiple = reduce(lambda x,y: x*y, tests)
 round = 0
 
-while round < 20:
+while round < 10000:
     for monkey in monkeys:
         while monkey.has_items():
             item,monkey_index = monkey.inspect_item()
+            item %= common_test_multiple
             monkeys[monkey_index].get_item(item)
     round += 1
 
 monkey_activity = sorted([monkey.inspect_count for monkey in monkeys],reverse=True)
 
 print(monkey_activity[0]*monkey_activity[1])
-
