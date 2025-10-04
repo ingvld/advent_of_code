@@ -8,6 +8,10 @@ import (
 )
 
 func main() {
+	if len(os.Args) == 1 {
+		fmt.Println("usage: go run 8-1.go input_file")
+		os.Exit(1)
+	}
 	f, _ := os.Open(os.Args[1])
 	r, _ := regexp.Compile(`\\(x..|\\|")`)
 	scanner := bufio.NewScanner(f)
