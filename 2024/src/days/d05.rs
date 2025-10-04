@@ -1,4 +1,9 @@
-use std::collections::{HashMap, HashSet};
+use std::{
+    cmp::Ordering,
+    collections::{HashMap, HashSet},
+};
+
+use itertools::Itertools;
 
 pub fn p1(input: String) -> i32 {
     let (rules, updates) = input.split_once("\n\n").unwrap();
@@ -35,6 +40,30 @@ pub fn p1(input: String) -> i32 {
     sum
 }
 
-pub fn p2(_input: String) -> i32 {
-    2
+pub fn p2(input: String) -> i32 {
+    let (rules, updates) = input.split_once("\n\n").unwrap();
+
+    let ruleset: HashSet<(&str, &str)> = rules
+        .lines()
+        .map(|line| line.split_once("|").unwrap())
+        .collect();
+
+    updates
+        .lines()
+        .map(|l| l.split(',').collect_vec())
+        .filter_map(|mut update| {
+            let mut was_unsorted = false;
+            update.sort_by(|&x, &y| {
+                if ruleset.contains(&(x, y)) {
+                    was_unsorted = true;
+                    Ordering::Greater
+                } else if ruleset.contains(&(y, x)) {
+                    Ordering::Less
+                } else {
+                    Ordering::Equal
+                }
+            });
+            was_unsorted.then_some(update)
+        })
+        .fold(0, |acc, u| acc + u[u.len() / 2].parse::<i32>().unwrap())
 }
